@@ -1,22 +1,23 @@
-# 📘 DOCUMENTAÇÃO OFICIAL — MANO GUSTAVO UI LIBRARY (V7.6)
+DOCUMENTAÇÃO OFICIAL — MANO GUSTAVO UI LIBRARY (V7.6)
 
-Esta é a documentação **OFICIAL e COMPLETA** da **Mano Gustavo UI Library**.
-Aqui você vai aprender **do zero até o avançado** como usar a library, criar hubs profissionais e aproveitar todos os sistemas incluídos.
+Esta é a documentação OFICIAL e COMPLETA da Mano Gustavo UI Library.
+Aqui você vai aprender do zero até o avançado como usar a library, criar hubs profissionais e aproveitar todos os sistemas incluídos.
 
-## 🔗 Carregamento remoto via GitHub (recomendado)
+==================================================
 
-A library é carregada diretamente do GitHub, evitando scripts gigantes.
+CARREGAMENTO REMOTO VIA GITHUB (RECOMENDADO)
+
+A library é carregada diretamente do GitHub, evitando scripts gigantes e facilitando atualizações.
 
 Use SEMPRE este código no início do seu script:
 
-```lua
 local Library = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua"
+"https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua"
 ))()
 
----
+==================================================
 
-## [1] CRIANDO A JANELA PRINCIPAL
+[1] CRIANDO A JANELA PRINCIPAL
 
 A janela é a base do seu Hub.
 
@@ -28,42 +29,43 @@ Author = "Seu Nome",
 Keybind = Enum.KeyCode.RightControl
 })
 
-📌 Explicação:
-• Title → Nome do hub (aparece no topo)
-• Author → Nome do criador (opcional)
-• Keybind → Tecla para abrir/fechar no PC
+Explicação:
 
-📱 Mobile:
-No celular, aparece automaticamente um botão flutuante e arrastável.
+Title: Nome do hub (aparece no topo)
 
----
+Author: Nome do criador (opcional)
 
-## [2] SISTEMA DE ABAS (TABS)
+Keybind: Tecla para abrir/fechar no PC
 
-As abas servem para organizar as funções.
+OBS:
+No celular, um botão flutuante e arrastável aparece automaticamente.
+
+==================================================
+
+[2] SISTEMA DE ABAS (TABS)
+
+As abas servem para organizar as funções do seu script.
 
 Exemplo:
 
 local TabMain = Window:CreateTab("Principal")
-local TabESP  = Window:CreateTab("ESP")
+local TabESP = Window:CreateTab("ESP")
 
-Tudo criado usando a variável da aba aparecerá dentro dela.
+Tudo que for criado usando a variável da aba aparecerá dentro dela.
 
----
+==================================================
 
-## [3] ELEMENTOS DISPONÍVEIS
+[3] ELEMENTOS DISPONÍVEIS NA LIBRARY
 
 A) BUTTON — Botão simples
-Executa uma ação uma única vez.
+Executa uma ação uma única vez ao clicar.
 
 Tab:CreateButton("Executar", function()
 print("Botão clicado")
 end)
 
----
-
 B) TOGGLE — Liga / Desliga
-Usado para sistemas contínuos (loops).
+Usado para sistemas contínuos (Auto Farm, ESP, etc).
 
 Tab:CreateToggle("Auto Farm", function(Value)
 getgenv().Farm = Value
@@ -72,16 +74,12 @@ task.wait(0.1)
 end
 end, false)
 
----
-
 C) SLIDER — Barra numérica
-Escolhe valores entre mínimo e máximo.
+Usado para definir valores entre mínimo e máximo.
 
 Tab:CreateSlider("Velocidade", 16, 200, 16, function(Value)
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 end)
-
----
 
 D) DROPDOWN — Lista de opções
 
@@ -89,38 +87,41 @@ Tab:CreateDropdown("Selecionar", {"Opção 1", "Opção 2"}, function(Value)
 print(Value)
 end)
 
----
-
 E) TEXTBOX — Entrada de texto
 
 Tab:CreateTextBox("Nome", "Digite aqui...", function(Text)
 print(Text)
 end)
 
----
-
 F) LABEL — Texto informativo
+Usado apenas para organização visual.
 
 Tab:CreateLabel("--- Configurações ---")
 
----
+G) COLOR PICKER RGB (NOVO)
 
-G) COLOR PICKER RGB 🎨
-Permite escolher cores personalizadas (ESP, Chams, UI).
+Permite escolher cores personalizadas usando RGB.
+Ideal para ESP, Chams, Wallhack e UI.
 
-Tab:CreateColorPicker("Cor do ESP", Color3.fromRGB(255,0,0), function(Color)
+Tab:CreateColorPicker("Cor do ESP", Color3.fromRGB(255, 0, 0), function(Color)
 print(Color)
 end)
 
-📌 Retorno:
-• Retorna um Color3
-• Atualiza em tempo real
+Informações importantes:
 
----
+Retorna um Color3
 
-## [4] SISTEMA DE NOTIFICAÇÕES AVANÇADO
+Atualiza em tempo real
 
-Função base:
+Pode ser aplicado diretamente em Highlight, UI, etc.
+
+==================================================
+
+[4] SISTEMA DE NOTIFICAÇÕES AVANÇADO
+
+A library possui notificações por tipo, facilitando feedback visual.
+
+Uso básico:
 
 Library:Notification({
 Title = "Título",
@@ -130,42 +131,88 @@ Type = "Info"
 })
 
 Tipos disponíveis:
-• Success → Verde
-• Warning → Amarelo
-• Error   → Vermelho
-• Info    → Azul
 
----
+Success → Verde (sucesso)
 
-## [5] SISTEMA DE LUPA (PESQUISA) 🔍
+Warning → Amarelo (aviso)
 
-Permite pesquisar elementos dentro da aba atual.
-Ideal para hubs grandes.
+Error → Vermelho (erro)
 
-• Filtra botões, toggles, sliders, dropdowns, textbox e color picker
-• Pesquisa em tempo real
-• Não afeta performance
+Info → Azul (informação)
 
----
+Exemplo:
 
-## [6] BOAS PRÁTICAS
+Library:Notification({
+Title = "Sucesso!",
+Text = "Auto Farm ativado.",
+Duration = 4,
+Type = "Success"
+})
 
-• Use abas para organizar
-• Evite loops sem task.wait()
-• Use notificações para feedback
-• Prefira carregar a library via GitHub
+==================================================
 
----
+[5] SISTEMA DE LUPA / PESQUISA (NOVO)
 
-## [7] O QUE TORNA ESSA LIBRARY DIFERENTE
+A library possui um sistema de pesquisa (lupa) integrado.
 
-✔ Modular
-✔ Atualizável remotamente
-✔ Compatível com mobile
-✔ UI moderna
-✔ Ideal para hubs grandes
+Função:
 
----
+Permite pesquisar elementos dentro da aba atual
 
-## FIM DA DOCUMENTAÇÃO OFICIAL
+Filtra em tempo real
 
+Elementos filtrados:
+
+Buttons
+
+Toggles
+
+Sliders
+
+Dropdowns
+
+TextBox
+
+Color Picker
+
+Labels
+
+Observações:
+
+Atua apenas na aba aberta
+
+Não afeta performance
+
+Ideal para hubs grandes
+
+==================================================
+
+[6] BOAS PRÁTICAS
+
+Use abas para organizar o hub
+
+Evite loops sem task.wait()
+
+Use notificações para feedback ao usuário
+
+Prefira sempre carregar a library via GitHub
+
+Nomeie bem botões e toggles
+
+==================================================
+
+[7] DIFERENCIAIS DA MANO GUSTAVO UI LIBRARY
+
+Library modular
+
+Atualização centralizada via GitHub
+
+Compatível com PC e Mobile
+
+UI moderna e fluida
+
+Ideal para hubs grandes e profissionais
+
+==================================================
+
+FIM DA DOCUMENTAÇÃO OFICIAL
