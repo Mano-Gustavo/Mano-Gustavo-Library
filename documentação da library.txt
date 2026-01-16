@@ -9,8 +9,9 @@ A library é carregada diretamente do GitHub, evitando scripts gigantes.
 
 Use SEMPRE este código no início do seu script:
 
+```lua
 local Library = loadstring(game:HttpGet(
-"[https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua](https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua)"
+    "https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua"
 ))()
 
 ---
@@ -167,3 +168,4 @@ Ideal para hubs grandes.
 ---
 
 ## FIM DA DOCUMENTAÇÃO OFICIAL
+
