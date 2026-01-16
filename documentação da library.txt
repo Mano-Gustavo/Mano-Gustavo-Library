@@ -1,0 +1,169 @@
+# 📘 DOCUMENTAÇÃO OFICIAL — MANO GUSTAVO UI LIBRARY (V7.6)
+
+Esta é a documentação **OFICIAL e COMPLETA** da **Mano Gustavo UI Library**.
+Aqui você vai aprender **do zero até o avançado** como usar a library, criar hubs profissionais e aproveitar todos os sistemas incluídos.
+
+## 🔗 Carregamento remoto via GitHub (recomendado)
+
+A library é carregada diretamente do GitHub, evitando scripts gigantes.
+
+Use SEMPRE este código no início do seu script:
+
+local Library = loadstring(game:HttpGet(
+"[https://raw.githubusercontent.com/Mano-Gustavo/ManoGustavo-Library-/refs/heads/main/Library.lua](https://raw.githubusercontent.com/Mano-Gustavo/ManoGustavo-Library-/refs/heads/main/Library.lua)"
+))()
+
+---
+
+## [1] CRIANDO A JANELA PRINCIPAL
+
+A janela é a base do seu Hub.
+
+Exemplo:
+
+local Window = Library:CreateWindow({
+Title = "Meu Hub",
+Author = "Seu Nome",
+Keybind = Enum.KeyCode.RightControl
+})
+
+📌 Explicação:
+• Title → Nome do hub (aparece no topo)
+• Author → Nome do criador (opcional)
+• Keybind → Tecla para abrir/fechar no PC
+
+📱 Mobile:
+No celular, aparece automaticamente um botão flutuante e arrastável.
+
+---
+
+## [2] SISTEMA DE ABAS (TABS)
+
+As abas servem para organizar as funções.
+
+Exemplo:
+
+local TabMain = Window:CreateTab("Principal")
+local TabESP  = Window:CreateTab("ESP")
+
+Tudo criado usando a variável da aba aparecerá dentro dela.
+
+---
+
+## [3] ELEMENTOS DISPONÍVEIS
+
+A) BUTTON — Botão simples
+Executa uma ação uma única vez.
+
+Tab:CreateButton("Executar", function()
+print("Botão clicado")
+end)
+
+---
+
+B) TOGGLE — Liga / Desliga
+Usado para sistemas contínuos (loops).
+
+Tab:CreateToggle("Auto Farm", function(Value)
+getgenv().Farm = Value
+while getgenv().Farm do
+task.wait(0.1)
+end
+end, false)
+
+---
+
+C) SLIDER — Barra numérica
+Escolhe valores entre mínimo e máximo.
+
+Tab:CreateSlider("Velocidade", 16, 200, 16, function(Value)
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+end)
+
+---
+
+D) DROPDOWN — Lista de opções
+
+Tab:CreateDropdown("Selecionar", {"Opção 1", "Opção 2"}, function(Value)
+print(Value)
+end)
+
+---
+
+E) TEXTBOX — Entrada de texto
+
+Tab:CreateTextBox("Nome", "Digite aqui...", function(Text)
+print(Text)
+end)
+
+---
+
+F) LABEL — Texto informativo
+
+Tab:CreateLabel("--- Configurações ---")
+
+---
+
+G) COLOR PICKER RGB 🎨
+Permite escolher cores personalizadas (ESP, Chams, UI).
+
+Tab:CreateColorPicker("Cor do ESP", Color3.fromRGB(255,0,0), function(Color)
+print(Color)
+end)
+
+📌 Retorno:
+• Retorna um Color3
+• Atualiza em tempo real
+
+---
+
+## [4] SISTEMA DE NOTIFICAÇÕES AVANÇADO
+
+Função base:
+
+Library:Notification({
+Title = "Título",
+Text = "Mensagem",
+Duration = 5,
+Type = "Info"
+})
+
+Tipos disponíveis:
+• Success → Verde
+• Warning → Amarelo
+• Error   → Vermelho
+• Info    → Azul
+
+---
+
+## [5] SISTEMA DE LUPA (PESQUISA) 🔍
+
+Permite pesquisar elementos dentro da aba atual.
+Ideal para hubs grandes.
+
+• Filtra botões, toggles, sliders, dropdowns, textbox e color picker
+• Pesquisa em tempo real
+• Não afeta performance
+
+---
+
+## [6] BOAS PRÁTICAS
+
+• Use abas para organizar
+• Evite loops sem task.wait()
+• Use notificações para feedback
+• Prefira carregar a library via GitHub
+
+---
+
+## [7] O QUE TORNA ESSA LIBRARY DIFERENTE
+
+✔ Modular
+✔ Atualizável remotamente
+✔ Compatível com mobile
+✔ UI moderna
+✔ Ideal para hubs grandes
+
+---
+
+## FIM DA DOCUMENTAÇÃO OFICIAL
