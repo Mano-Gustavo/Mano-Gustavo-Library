@@ -1,218 +1,279 @@
-DOCUMENTAÇÃO OFICIAL — MANO GUSTAVO UI LIBRARY (V7.6)
+# 💎 MANO GUSTAVO UI — DIAMOND EDITION (V7.9)
 
-Esta é a documentação OFICIAL e COMPLETA da Mano Gustavo UI Library.
-Aqui você vai aprender do zero até o avançado como usar a library, criar hubs profissionais e aproveitar todos os sistemas incluídos.
+Uma UI Library moderna, modular e extensível para scripts Roblox.
+Projetada para **iniciante usar fácil** e **avançado escalar sem dor**.
 
-==================================================
+---
 
-CARREGAMENTO REMOTO VIA GITHUB (RECOMENDADO)
+## [1] CARREGAMENTO (HOSTED / GITHUB)
 
-A library é carregada diretamente do GitHub, evitando scripts gigantes e facilitando atualizações.
+A library é carregada como **módulo remoto**, evitando scripts gigantes.
 
-Use SEMPRE este código no início do seu script:
-
+```lua
 local Library = loadstring(game:HttpGet(
-"https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua"
+    "https://raw.githubusercontent.com/Mano-Gustavo/Mano-Gustavo-Library/refs/heads/main/library.lua"
 ))()
+```
 
-==================================================
+**Vantagens:**
 
-[1] CRIANDO A JANELA PRINCIPAL
+* Script final menor
+* Atualizações sem reenviar scripts
+* Estrutura profissional
 
-A janela é a base do seu Hub.
+---
 
-Exemplo:
+## [2] CRIANDO A JANELA PRINCIPAL
 
+```lua
 local Window = Library:CreateWindow({
-Title = "Meu Hub",
-Author = "Seu Nome",
-Keybind = Enum.KeyCode.RightControl
+    Title = "Meu Hub",
+    Keybind = Enum.KeyCode.RightControl
 })
+```
 
-Explicação:
+### Recursos da Janela
 
-Title: Nome do hub (aparece no topo)
+* Drag & Drop
+* Botão Mobile automático
+* Sistema de Tabs
+* Busca (lupa)
+* Tema dinâmico
+* Minimizar / Restaurar
 
-Author: Nome do criador (opcional)
+---
 
-Keybind: Tecla para abrir/fechar no PC
+## [3] ORGANIZAÇÃO: TABS E SECTIONS
 
-OBS:
-No celular, um botão flutuante e arrastável aparece automaticamente.
+### Criar Tabs
 
-==================================================
+```lua
+local TabMain = Window:CreateTab("Main")
+local TabVisual = Window:CreateTab("Visuals")
+```
 
-[2] SISTEMA DE ABAS (TABS)
+### Criar Sections (NOVO)
 
-As abas servem para organizar as funções do seu script.
+Sections organizam componentes **dentro da Tab**.
 
-Exemplo:
+```lua
+local CombatSection = TabMain:CreateSection("Combat Features")
+```
 
-local TabMain = Window:CreateTab("Principal")
-local TabESP = Window:CreateTab("ESP")
+📌 **Importante:**
 
-Tudo que for criado usando a variável da aba aparecerá dentro dela.
+* Use `Section:CreateX()` para colocar itens dentro da caixa
+* Use `Tab:CreateX()` para itens soltos
 
-==================================================
+Sections também respondem ao **Theme System**.
 
-[3] ELEMENTOS DISPONÍVEIS NA LIBRARY
+---
 
-A) BUTTON — Botão simples
-Executa uma ação uma única vez ao clicar.
+## [4] COMPONENTES SUPORTADOS
 
-Tab:CreateButton("Executar", function()
-print("Botão clicado")
+### A) Button
+
+```lua
+local Btn = Section:CreateButton("Reset", function()
+    print("Clicked")
 end)
 
-B) TOGGLE — Liga / Desliga
-Usado para sistemas contínuos (Auto Farm, ESP, etc).
+Btn:SetTooltip("Executa uma ação única")
+```
 
-Tab:CreateToggle("Auto Farm", function(Value)
-getgenv().Farm = Value
-while getgenv().Farm do
-task.wait(0.1)
-end
+---
+
+### B) Toggle (com Hooks)
+
+```lua
+local Toggle = Section:CreateToggle("Auto Farm", function(Value)
+    print(Value)
 end, false)
 
-C) SLIDER — Barra numérica
-Usado para definir valores entre mínimo e máximo.
-
-Tab:CreateSlider("Velocidade", 16, 200, 16, function(Value)
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+Toggle:OnEnable(function()
+    print("Ligou")
 end)
 
-D) DROPDOWN — Lista de opções
-
-Tab:CreateDropdown("Selecionar", {"Opção 1", "Opção 2"}, function(Value)
-print(Value)
+Toggle:OnDisable(function()
+    print("Desligou")
 end)
+```
 
-E) TEXTBOX — Entrada de texto
+* Salvo automaticamente
+* Hooks não misturam lógica
 
-Tab:CreateTextBox("Nome", "Digite aqui...", function(Text)
-print(Text)
+---
+
+### C) Slider
+
+```lua
+local Slider = Section:CreateSlider("Speed", 16, 200, 16, function(Value)
+    print(Value)
 end)
+```
 
-F) LABEL — Texto informativo
-Usado apenas para organização visual.
+---
 
-Tab:CreateLabel("--- Configurações ---")
+### D) Dropdown
 
-G) COLOR PICKER RGB (NOVO)
-
-Permite escolher cores personalizadas usando RGB.
-Ideal para ESP, Chams, Wallhack e UI.
-
-Tab:CreateColorPicker("Cor do ESP", Color3.fromRGB(255, 0, 0), function(Color)
-print(Color)
+```lua
+local Drop = Section:CreateDropdown("Weapon", {"Gun","Knife"}, function(v)
+    print(v)
 end)
+```
 
-Informações importantes:
+---
 
-Retorna um Color3
+### E) Color Picker (RGB)
 
-Atualiza em tempo real
+```lua
+local Picker = Section:CreateColorPicker(
+    "ESP Color",
+    Color3.fromRGB(255,0,0),
+    function(Color)
+        print(Color)
+    end
+)
+```
 
-Pode ser aplicado diretamente em Highlight, UI, etc.
+Retorna `Color3`.
 
-==================================================
+---
 
-[4] SISTEMA DE NOTIFICAÇÕES AVANÇADO
+### F) TextBox
 
-A library possui notificações por tipo, facilitando feedback visual.
+```lua
+Section:CreateTextBox("Player", "Digite o nome", function(Text)
+    print(Text)
+end)
+```
 
-Uso básico:
+---
 
-Library:Notification({
-Title = "Título",
-Text = "Mensagem",
-Duration = 5,
-Type = "Info"
+### G) Label
+
+```lua
+Section:CreateLabel("----- VISUAL -----")
+```
+
+---
+
+## [5] SISTEMA DE CONFIG (SAVE / LOAD)
+
+Salva automaticamente:
+
+* Toggle
+* Slider
+* Dropdown
+* Color Picker
+
+```lua
+Library:SaveConfig("Legit")
+Library:LoadConfig("Legit")
+Library:ResetConfig()
+```
+
+📁 Local:
+
+```
+workspace/GustavoHub/Configs/*.json
+```
+
+⚠️ Requer executor com `writefile` e `readfile`.
+
+---
+
+## [6] SISTEMA DE TEMAS (DYNAMIC THEME)
+
+Altera toda a UI em tempo real:
+
+```lua
+Library:SetTheme({
+    MainColor = Color3.fromRGB(20,20,20),
+    SecondaryColor = Color3.fromRGB(35,35,35),
+    AccentColor = Color3.fromRGB(255,0,0),
+    TextColor = Color3.fromRGB(255,255,255),
+    SectionColor = Color3.fromRGB(30,30,30)
 })
+```
 
-Tipos disponíveis:
+Afeta:
 
-Success → Verde (sucesso)
+* Backgrounds
+* Textos
+* Bordas
+* Sliders
+* Section Titles
 
-Warning → Amarelo (aviso)
+---
 
-Error → Vermelho (erro)
+## [7] NOTIFICAÇÕES
 
-Info → Azul (informação)
-
-Exemplo:
-
+```lua
 Library:Notification({
-Title = "Sucesso!",
-Text = "Auto Farm ativado.",
-Duration = 4,
-Type = "Success"
+    Title = "Sucesso",
+    Text = "Config carregada",
+    Duration = 4,
+    Type = "Success"
 })
+```
 
-==================================================
+Tipos:
 
-[5] SISTEMA DE LUPA / PESQUISA (NOVO)
+* `Success`
+* `Error`
+* `Warning`
+* `Info`
 
-A library possui um sistema de pesquisa (lupa) integrado.
+---
 
-Função:
+## [8] CONCEITOS INTERNOS (IMPORTANTE)
 
-Permite pesquisar elementos dentro da aba atual
+### Flags
 
-Filtra em tempo real
+* Usam o **nome visível** do componente
+* Cada nome deve ser único
 
-Elementos filtrados:
+```lua
+Lib.Flags["Auto Farm"] = true
+```
 
-Buttons
+### Options
 
-Toggles
+Permite controle externo:
 
-Sliders
+```lua
+Lib.Options["Auto Farm"]:Set(false)
+```
 
-Dropdowns
+📌 **Nota:**
+Sistema de `FlagId` está planejado para V8.
 
-TextBox
+---
 
-Color Picker
+## [9] USO RECOMENDADO
 
-Labels
+Ideal para:
 
-Observações:
+* ESP
+* Hitbox Expander
+* Aimbot UI
+* Admin Panels
+* Tools Visuais
+* Menus Modulares
+* E diverços outros
 
-Atua apenas na aba aberta
+---
 
-Não afeta performance
+## [10] STATUS DA LIBRARY
 
-Ideal para hubs grandes
+✔ Modular
+✔ Estável
+✔ Escalável
+✔ Documentada
+✔ Pronta para público
 
-==================================================
+---
 
-[6] BOAS PRÁTICAS
-
-Use abas para organizar o hub
-
-Evite loops sem task.wait()
-
-Use notificações para feedback ao usuário
-
-Prefira sempre carregar a library via GitHub
-
-Nomeie bem botões e toggles
-
-==================================================
-
-[7] DIFERENCIAIS DA MANO GUSTAVO UI LIBRARY
-
-Library modular
-
-Atualização centralizada via GitHub
-
-Compatível com PC e Mobile
-
-UI moderna e fluida
-
-Ideal para hubs grandes e profissionais
-
-==================================================
-
-FIM DA DOCUMENTAÇÃO OFICIAL
+**Mano Gustavo UI — Diamond Edition V7.9**
+Framework de UI, não só um menu.
